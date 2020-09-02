@@ -1,0 +1,3 @@
+parameters:
+  fluentbit:
+    namespace: syn-fluentbit

@@ -1,0 +1,5 @@
+= fluentbit
+
+fluentbit is a Commodore component to manage fluentbit.
+
+See the xref:references/parameters.adoc[parameters] reference for further details.
