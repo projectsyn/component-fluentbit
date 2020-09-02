@@ -10,6 +10,153 @@ default:: `syn-fluentbit`
 
 The namespace in which to deploy this component.
 
+== `config.service.port`
+
+[horizontal]
+type:: int
+default:: `2020`
+
+Port on which fluent-bit exposes its metrics
+
+== `config.service.log_level`
+
+[horizontal]
+type:: string
+default:: `info`
+
+Fluent-bit log level
+
+== `config.inputs`
+
+[horizontal]
+type:: string
+default::
+--
+    [INPUT]
+        Name tail
+        Path /var/log/containers/*.log
+        Parser docker
+        Tag kube.*
+        Mem_Buf_Limit 5MB
+        Skip_Long_Lines On
+    [INPUT]
+        Name systemd
+        Tag host.*
+        Systemd_Filter _SYSTEMD_UNIT=kubelet.service
+        Read_From_Tail On
+--
+
+Fluent-bit inputs configuration
+
+== `config.extraInputs`
+
+[horizontal]
+type:: string
+default:: `''`
+
+Fluent-bit additional inputs configuration
+
+== `config.filters`
+
+[horizontal]
+type:: string
+default:: `''`
+--
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+--
+
+Fluent-bit default filter configuration
+
+== `config.extraFilters`
+
+[horizontal]
+type:: string
+default:: `''`
+
+Fluent-bit additional filters configuration
+
+== `config.customParsers`
+
+[horizontal]
+type:: string
+default::
+--
+    [PARSER]
+        Name docker_no_time
+        Format json
+        Time_Keep Off
+        Time_Key time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+        Decode_Field_As escaped log   do_next
+        Decode_Field_As json    log
+--
+
+Fluent-bit default parsers configuration
+
+== `config.extraParsers`
+
+[horizontal]
+type:: string
+default:: `''`
+
+Fluent-bit additional parsers configuration
+
+== `config.outputs`
+
+[horizontal]
+type:: string
+default:: `''`
+
+Fluent-bit outputs configuration. The component itself doesn't configure any
+ouptuts.
+
+== `psp_enabled`
+
+[horizontal]
+type:: bool
+default:: `false`
+
+Provides a PodSecurityPolicy for the fluent-bit pods, if enabled.
+
+== `monitoring.enabled`
+
+[horizontal]
+type:: bool
+default:: `false`
+
+Configures a ServiceMonitor for fluent-bit, if enabled.
+
+== `tolerations`
+
+[horizontal]
+type:: list
+default:: `[]`
+
+Tolerations that are configured on the fluent-bit pods
+
+== `charts.fluent_bit`
+
+[horizontal]
+type:: string
+default:: `0.6.3`
+
+== `images.fluent_bit.image`
+
+[horizontal]
+type:: string
+default:: `docker.io/fluent/fluent-bit`
+
+== `images.fluent_bit.tag`
+
+[horizontal]
+type:: string
+default:: `1.5.4`
 
 == Example
 

@@ -1,11 +1,51 @@
 parameters:
   kapitan:
+    dependencies:
+      - type: helm
+        output_path: dependencies/fluentbit/helmcharts/fluent-bit
+        source: https://fluent.github.io/helm-charts
+        version: ${fluentbit:charts:fluent_bit}
+        chart_name: fluent-bit
     compile:
       - input_paths:
           - fluentbit/component/app.jsonnet
         input_type: jsonnet
         output_path: apps/
-      - input_paths:
-          - fluentbit/component/main.jsonnet
-        input_type: jsonnet
-        output_path: fluentbit/
+      - output_path: fluentbit/01_fluentbit_helmchart
+        input_type: helm
+        output_type: yaml
+        input_paths:
+          - fluentbit/helmcharts/fluent-bit
+        helm_values:
+          image:
+            repository: ${fluentbit:images:fluent_bit:image}
+            tag: ${fluentbit:images:fluent_bit:tag}
+          config:
+            customParsers: |
+              ${fluentbit:config:customParsers}
+              ${fluentbit:config:extraParsers}
+            filters: |
+              ${fluentbit:config:filters}
+              ${fluentbit:config:extraFilters}
+            inputs: |
+              ${fluentbit:config:inputs}
+              ${fluentbit:config:extraInputs}
+            outputs: |
+              ${fluentbit:config:outputs}
+            service: |
+              [SERVICE]
+                  Flush 1
+                  Daemon Off
+                  Log_Level ${fluentbit:config:service:log_level}
+                  Parsers_File parsers.conf
+                  Parsers_File custom_parsers.conf
+                  HTTP_Server On
+                  HTTP_Listen 0.0.0.0
+                  HTTP_Port ${fluentbit:config:service:port}
+          service:
+            port: ${fluentbit:config:service:port}
+          podSecurityPolicy:
+            create: ${fluentbit:psp_enabled}
+          serviceMonitor:
+            enabled: ${fluentbit:monitoring:enabled}
+          tolerations: ${fluentbit:tolerations}
