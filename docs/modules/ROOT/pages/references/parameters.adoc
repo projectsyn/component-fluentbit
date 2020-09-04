@@ -10,10 +10,208 @@ default:: `syn-fluentbit`
 
 The namespace in which to deploy this component.
 
+== `config`
+
+[horizontal]
+type:: dict
+
+The configuration for fluent-bit itself. Any fluent-bit options can be
+provided verbatim under the available sections.
+Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, and
+`[PARSER]`  are supported.
+The respective keys are `service`, `inputs`, `outputs`, `filters`, and
+`parsers`.
+
+== `config.service`
+
+[horizontal]
+type:: dict
+default:: `{'Flush': 1, 'Log_Level': 'info', 'Parsers_File': 'parsers.conf'}`
+
+Configure the fluent-bit service.
+See
+https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[the
+upstream documentation] for available configuration parameters.
+
+The contents of this key will be reproduced verbatim (including capitalization
+of keys and values) in the fluent-bit configuration file in section
+`[SERVICE]`.
+
+== `config.inputs`
+
+[horizontal]
+type:: dict
+default:: `{'containers': {'Name': 'tail', 'Path': '/var/log/containers/*.log', 'Parser': 'docker', 'Tag': 'kube.*', 'Mem_Buf_Limit': '5MB', 'Skip_Long_lines': 'On'}, 'systemd': {'Tag': 'host.*', 'Systemd_Filter': '_SYSTEMD_UNIT=kubelet.service', 'Read_From_Tail': 'On'}}`
+
+Configure fluent-bit inputs.
+`config.inputs` should have one key per `[INPUT]` section that should be added
+to the fluent-bit configuration file.
+Each key of `config.inputs` should contain a dict holding the configuration
+values for the section which will be reproduced verbatim (including
+capitalization of keys and values).
+If the dict for a section doesn't have a key `Name`, the key for the section
+will be used as the plugin name for the section.
+This allows avoiding repetition, when it's unnecessary, while still supporting
+having multiple inputs using the same plugin.
+
+== `config.filters`
+
+[horizontal]
+type:: dict
+default:: `{'kubernetes:'{'Match': 'kube.*', 'Merge_Log': 'On', 'Keep_Log': 'On', 'K8S-Logging.Parser': 'On', 'K8S-Logging.Exclude': 'On'}}`
+
+Configure fluent-bit filters.
+`config.filters` should have one key per `[FILTER]` section that should be
+added to the fluent-bit configuration file.
+Each key of `config.filters` should contain a dict holding the configuration
+values for the section which will be reproduced verbatim (including
+capitalization of keys and values).
+If the dict for a section doesn't have a key `Name`, the key for the section
+will be used as the plugin name for the section.
+This allows avoiding repetition, when it's unnecessary, while still supporting
+having multiple filters using the same plugin.
+
+== `config.parsers`
+
+[horizontal]
+type:: dict
+default:: `{}`
+
+Configure fluent-bit parsers.
+The component doesn't configure any custom parsers.
+However, fluent-bit already provides a multitude of parsers in the docker
+image.
+Those parsers are made available by default as key `Parsers_File` in the
+service section is set to `parsers.conf`.
+The parsers provided by that file be inspected on
+https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[GitHub].
+
+`config.parsers` should have one key per `[PARSER]` section that should be
+added to the fluent-bit configuration file.
+Each key of `config.parsers` should contain a dict holding the configuration
+values for the section which will be reproduced verbatim (including
+capitalization of keys and values).
+If the dict for a section doesn't have a key `Name`, the key for the section
+will be used as the plugin name for the section.
+This allows avoiding repetition, when it's unnecessary, while still supporting
+having multiple parsers using the same plugin.
+
+== `config.outputs`
+
+[horizontal]
+type:: dict
+default:: `{}`
+
+Configure fluent-bit outputs.
+The component defaults don't provide any outputs, as the component can't know
+where logs should be sent.
+
+`config.outputs` should have one key per `[OUTPUT]` section that should be
+added to the fluent-bit configuration file.
+Each key of `config.outputs` should contain a dict holding the configuration
+values for the section which will be reproduced verbatim (including
+capitalization of keys and values).
+If the dict for a section doesn't have a key `Name`, the key for the section
+will be used as the plugin name for the section.
+This allows avoiding repetition, when it's unnecessary, while still supporting
+having multiple outputs using the same plugin.
+
+== `annotations`
+
+[horizontal]
+type:: dict
+default:: `{'fluentbit.io/exclude': 'true'}`
+
+Annotations for the fluent-bit pods.
+
+By default annotation `fluentbit.io/exclude: 'true'` is set.
+This annotation ensures that fluent-bit doesn't process its own logs.
+This allows increasing the fluent-bit log level without having to worry about
+creating an exponential amount of logs, which could happen otherwise, as
+higher log levels will reproduce each processed message to `stdout`.
+
+== `psp_enabled`
+
+[horizontal]
+type:: bool
+default:: `false`
+
+Provides a PodSecurityPolicy for the fluent-bit pods, if enabled.
+
+== `monitoring.enabled`
+
+[horizontal]
+type:: bool
+default:: `false`
+
+Configures a ServiceMonitor for fluent-bit, if enabled.
+
+== `monitoring.metricsPort`
+
+[horizontal]
+type:: int
+default:: `2020`
+
+Configures the port on which fluent-bit exposes its metrics.
+
+This value is also injected into the fluent-bit configuration file in section
+`[SERVICE]` as the value for key `HTTP_Port`, unless `HTTP_Port` is explicitly
+set in `config.service`.
+
+== `tolerations`
+
+[horizontal]
+type:: list
+default:: `[]`
+
+Tolerations that are configured on the fluent-bit pods
+
+== `charts.fluent_bit`
+
+[horizontal]
+type:: string
+default:: `0.6.3`
+
+== `images.fluent_bit.image`
+
+[horizontal]
+type:: string
+default:: `docker.io/fluent/fluent-bit`
+
+== `images.fluent_bit.tag`
+
+[horizontal]
+type:: string
+default:: `1.5.4`
 
 == Example
 
 [source,yaml]
 ----
-namespace: example-namespace
+# configure log-forwarding to Graylog over GELF/TCP
+# The key `gelf` in `outputs` is used as the plugin name in the resulting
+# configuration, since the `Name` field was omitted under key `gelf`.
+config:
+  outputs:
+    gelf:
+      Match: kube.*
+      Host: graylog.example.com
+      Port: 12201
+      Mode: tcp
+      Gelf_Host_Key: stream
+      Gelf_Short_Message_Key: log
+----
+
+[source,yaml]
+----
+# Add field to log messages.
+#
+# This example showcases specifying the plugin to use by setting 'Name'.
+# When 'Name' is given, the key in `filters` is ignored.
+config:
+  filters:
+    add_cluster_name:
+      Name: modify
+      Match: '*'
+      Add: "syn_cluster_name ${cluster:name}"
 ----

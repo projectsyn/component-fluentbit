@@ -1,5 +1,6 @@
 = fluentbit
 
-fluentbit is a Commodore component to manage fluentbit.
+fluentbit is a Commodore component to manage fluent-bit using the official
+https://hub.helm.sh/charts/fluent/fluent-bit[fluent/fluent-bit helm chart].
 
 See the xref:references/parameters.adoc[parameters] reference for further details.

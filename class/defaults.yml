@@ -1,3 +1,64 @@
 parameters:
   fluentbit:
     namespace: syn-fluentbit
+    configMapName: syn-fluentbit-config
+    config:
+      # fluent-bit service config
+      service:
+        Flush: 1
+        Log_Level: info
+        Parsers_File: parsers.conf
+      # If key Name (specifying the plugin) doesn't exist for an entry, the
+      # entry's key is used as the plugin name. This allows having multiple
+      # tail inputs for example. This is true for inputs, outputs, parsers and
+      # filters.
+      #
+      # Inputs: Read container and kubelet logs by default, can be extended
+      # arbitrarily.
+      inputs:
+        containers:
+          Name: tail
+          Path: /var/log/containers/*.log
+          Parser: docker
+          Tag: kube.*
+          Mem_Buf_Limit: 5MB
+          Skip_Long_lines: On
+        systemd:
+          Tag: host.*
+          Systemd_Filter: _SYSTEMD_UNIT=kubelet.service
+          Read_From_Tail: On
+      # We don't define any outputs by default, as we have no idea where logs
+      # should be shipped.
+      outputs: {}
+      # The fluent-bit image ships with a collection of default parsers, which
+      # we include in the section 'service' above. "docker" is one of the
+      # included parsers. The set of available parsers can be found at
+      # https://github.com/fluent/fluent-bit/blob/master/conf/parsers.conf
+      parsers: {}
+      # The kubernetes filter is almost always wanted
+      filters:
+        kubernetes:
+          Match: kube.*
+          # Extract log elements and add them as top-level keys
+          Merge_Log: On
+          # Keep the original log message
+          Keep_Log: On
+          K8S-Logging.Parser: On
+          K8S-Logging.Exclude: On
+    # fluent-bit extra annotations
+    annotations:
+      fluentbit.io/exclude: "true"
+    # control PodSecurityPolicy
+    psp_enabled: false
+    # Enable fluent-bit metrics, and configure a ServiceMonitor
+    monitoring:
+      enabled: false
+      metricsPort: 2020
+    # Add tolerations to the pod spec
+    tolerations: []
+    charts:
+      fluent_bit: '0.6.3'
+    images:
+      fluent_bit:
+        image: docker.io/fluent/fluent-bit
+        tag: '1.5.4'
