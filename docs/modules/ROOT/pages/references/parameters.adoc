@@ -33,6 +33,10 @@ See
 https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[the
 upstream documentation] for available configuration parameters.
 
+Please note that 'HTTP_Server' should not be disabled, as otherwise the
+container readiness and liveness probes will fail, and the pods will go into
+CrashLoopBackOff.
+
 The contents of this key will be reproduced verbatim (including capitalization
 of keys and values) in the fluent-bit configuration file in section
 `[SERVICE]`.
