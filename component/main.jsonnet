@@ -14,7 +14,7 @@ local render_fluentbit_cfg(type, name, cfg) =
     else
       name;
   // remove 'Name' entry from `cfg` object, if it exists
-  local realcfg = std.prune(cfg + {Name: null});
+  local realcfg = std.prune(cfg { Name: null });
   local entries = std.prune([
     // explicitly add 'Name' key as first element of section
     if realname != '' then std.format('Name %s', realname),

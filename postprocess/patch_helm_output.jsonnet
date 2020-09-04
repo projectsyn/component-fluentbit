@@ -20,7 +20,7 @@ local fix_container_port(ds) =
   local ports = ds.spec.template.spec.containers[0].ports;
   local fixedports = [
     if p.name == 'http' then
-      p + { containerPort: params.monitoring.metricsPort }
+      p { containerPort: params.monitoring.metricsPort }
     else
       p
     for p in ports
