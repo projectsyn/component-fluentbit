@@ -22,6 +22,13 @@ Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, and
 The respective keys are `service`, `inputs`, `outputs`, `filters`, and
 `parsers`.
 
+[NOTE]
+====
+Fluent-bit uses the strings 'On' and 'Off' for boolean configuration values.
+Make sure that you quote those strings to avoid them getting interpreted as
+booleans when the hierarchy YAML is parsed.
+====
+
 == `config.service`
 
 [horizontal]
