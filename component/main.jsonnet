@@ -50,7 +50,7 @@ local serviceCfg = {
   Daemon: 'Off',
   Plugins_File: 'plugins.conf',
   HTTP_Listen: '0.0.0.0',
-  HTTP_Server: if params.monitoring.enabled then 'On' else 'Off',
+  HTTP_Server: 'On',
   HTTP_Port: params.monitoring.metricsPort,
 } + params.config.service;
 
