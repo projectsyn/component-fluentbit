@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
+- Always enable fluent-bit's HTTP server for readiness/liveness probes ([#2])
+- Patch containerPort in DaemonSet when metrics port is customized ([#2])
 - Initial Implementation ([#1])
 
 [Unreleased]: https://github.com/projectsyn/component-fluentbit/compare/v0.1.0...HEAD
 [#1]: https://github.com/projectsyn/component-fluentbit/pull/1
+[#2]: https://github.com/projectsyn/component-fluentbit/pull/2
