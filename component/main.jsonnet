@@ -14,7 +14,7 @@ local render_fluentbit_cfg(type, name, cfg) =
     else
       name;
   // remove 'Name' entry from `cfg` object, if it exists
-  local realcfg = std.prune(cfg + {Name: null});
+  local realcfg = std.prune(cfg { Name: null });
   local entries = std.prune([
     // explicitly add 'Name' key as first element of section
     if realname != '' then std.format('Name %s', realname),
@@ -50,7 +50,7 @@ local serviceCfg = {
   Daemon: 'Off',
   Plugins_File: 'plugins.conf',
   HTTP_Listen: '0.0.0.0',
-  HTTP_Server: if params.monitoring.enabled then 'On' else 'Off',
+  HTTP_Server: 'On',
   HTTP_Port: params.monitoring.metricsPort,
 } + params.config.service;
 

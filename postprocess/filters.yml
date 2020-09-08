@@ -5,3 +5,6 @@ filters:
     filterargs:
       namespace: ${fluentbit:namespace}
       create_namespace: "true"
+  - output_path: fluentbit/01_fluentbit_helmchart/fluent-bit/templates
+    type: jsonnet
+    filter: patch_helm_output.jsonnet

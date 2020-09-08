@@ -22,6 +22,13 @@ Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, and
 The respective keys are `service`, `inputs`, `outputs`, `filters`, and
 `parsers`.
 
+[NOTE]
+====
+Fluent-bit uses the strings 'On' and 'Off' for boolean configuration values.
+Make sure that you quote those strings to avoid them getting interpreted as
+booleans when the hierarchy YAML is parsed.
+====
+
 == `config.service`
 
 [horizontal]
@@ -32,6 +39,10 @@ Configure the fluent-bit service.
 See
 https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[the
 upstream documentation] for available configuration parameters.
+
+Please note that 'HTTP_Server' should not be disabled, as otherwise the
+container readiness and liveness probes will fail, and the pods will go into
+CrashLoopBackOff.
 
 The contents of this key will be reproduced verbatim (including capitalization
 of keys and values) in the fluent-bit configuration file in section
