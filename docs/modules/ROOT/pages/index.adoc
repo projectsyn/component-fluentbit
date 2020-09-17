@@ -3,4 +3,7 @@
 fluentbit is a Commodore component to manage fluent-bit using the official
 https://hub.helm.sh/charts/fluent/fluent-bit[fluent/fluent-bit helm chart].
 
+The component adds a custom annotation `checksum/syn-config` to the PodSpec of the fluent-bit DaemonSet.
+This ensures that the fluent-bit pods are restarted when the configuration managed by the component changes.
+
 See the xref:references/parameters.adoc[parameters] reference for further details.
