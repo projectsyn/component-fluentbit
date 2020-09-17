@@ -6,6 +6,12 @@ local params = inv.parameters.fluentbit;
 
 local chart_output_dir = std.extVar('output_path');
 
+// Grab custom configmap to add a hash of the contents as annotation to the
+// DaemonSet. This will trigger fluentbit restarts if the config changes
+local configmap_file = chart_output_dir + '/../../../10_custom_config.yaml';
+local configmap = std.prune(com.yaml_load_all(configmap_file))[0];
+local configmap_contents_hash = std.md5(configmap.data['syn-fluent-bit.conf']);
+
 local list_dir(dir, basename=true) =
   std.native('list_dir')(dir, basename);
 
@@ -28,6 +34,11 @@ local fix_container_port(ds) =
   ds {
     spec+: {
       template+: {
+        metadata+: {
+          annotations+: {
+            'checksum/syn-config': configmap_contents_hash,
+          },
+        },
         spec+: {
           containers: [
             ds.spec.template.spec.containers[0] {
