@@ -37,7 +37,8 @@ parameters:
       parsers: {}
       # The kubernetes filter is almost always wanted
       filters:
-        kubernetes:
+        00_kubernetes:
+          Name: kubernetes
           Match: kube.*
           # Extract log elements and add them as top-level keys
           Merge_Log: 'On'

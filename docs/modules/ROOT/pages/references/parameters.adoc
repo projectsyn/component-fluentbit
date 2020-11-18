@@ -69,7 +69,7 @@ having multiple inputs using the same plugin.
 
 [horizontal]
 type:: dict
-default:: `{'kubernetes:'{'Match': 'kube.*', 'Merge_Log': 'On', 'Keep_Log': 'On', 'K8S-Logging.Parser': 'On', 'K8S-Logging.Exclude': 'On'}}`
+default:: `{'00_kubernetes:'{'Name': 'kubernetes', 'Match': 'kube.*', 'Merge_Log': 'On', 'Keep_Log': 'On', 'K8S-Logging.Parser': 'On', 'K8S-Logging.Exclude': 'On'}}`
 
 Configure fluent-bit filters.
 `config.filters` should have one key per `[FILTER]` section that should be
@@ -81,6 +81,11 @@ If the dict for a section doesn't have a key `Name`, the key for the section
 will be used as the plugin name for the section.
 This allows avoiding repetition, when it's unnecessary, while still supporting
 having multiple filters using the same plugin.
+
+NOTE: Please note that filter order matters to fluent-bit.
+The component will always output filters sorted by their keys.
+This behavior can be used to define sort order by prefixing keys in filters with a number (e.g. `00_kubernetes` would come before `10_modify`).
+When prefixing keys like this, the `Name` field must be provided, as fluent-bit won't know which filter plugin to use otherwise.
 
 == `config.parsers`
 
