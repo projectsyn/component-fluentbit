@@ -43,7 +43,7 @@ local parsers = std.join('\n', [
 
 local filters = std.join('\n', [
   render_fluentbit_cfg('FILTER', elem, params.config.filters[elem])
-  for elem in std.objectFields(params.config.filters)
+  for elem in std.sort(std.objectFields(params.config.filters))
 ]);
 
 local serviceCfg = {
