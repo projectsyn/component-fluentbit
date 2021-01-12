@@ -57,6 +57,15 @@ parameters:
       metricsPort: 2020
     # Add tolerations to the pod spec
     tolerations: []
+    # Add volumes to the pod spec
+    extraVolumes:
+    - name: syn-config
+      configMap:
+        name: ${fluentbit:configMapName}
+    extraVolumeMounts:
+      - name: syn-config
+        mountPath: /fluent-bit/etc/syn-fluent-bit.conf
+        subPath: syn-fluent-bit.conf
     charts:
       fluent_bit: '0.7.13'
     images:

@@ -180,7 +180,23 @@ set in `config.service`.
 type:: list
 default:: `[]`
 
-Tolerations that are configured on the fluent-bit pods
+Tolerations that are configured on the fluent-bit pods.
+
+== `extraVolumes`
+
+[horizontal]
+type:: list
+default:: `[syn-config]`
+
+Additional volumes that are configured on the fluent-bit pods.
+
+== `extraVolumeMounts`
+
+[horizontal]
+type:: list
+default:: `[syn-config]`
+
+Additional volume mounts that are configured on the fluent-bit pods.
 
 == `charts.fluent_bit`
 
