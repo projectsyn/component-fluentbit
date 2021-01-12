@@ -58,7 +58,7 @@ parameters:
     # Add tolerations to the pod spec
     tolerations: []
     charts:
-      fluent_bit: '0.6.3'
+      fluent_bit: '0.7.13'
     images:
       fluent_bit:
         image: docker.io/fluent/fluent-bit
