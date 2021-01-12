@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Patch containerPort in DaemonSet when metrics port is customized ([#2])
 - Initial Implementation ([#1])
 
+### Changed
+
+- Upgrade Helm chart to v0.7.13 ([#7])
+
 ### Fixed
 
 - Properly quote 'On' and 'Off' values in `class/defaults.yml`
@@ -22,3 +26,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#2]: https://github.com/projectsyn/component-fluentbit/pull/2
 [#3]: https://github.com/projectsyn/component-fluentbit/pull/3
 [#6]: https://github.com/projectsyn/component-fluentbit/pull/6
+[#7]: https://github.com/projectsyn/component-fluentbit/pull/7
