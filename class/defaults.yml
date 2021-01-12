@@ -59,9 +59,9 @@ parameters:
     tolerations: []
     # Add volumes to the pod spec
     extraVolumes:
-    - name: syn-config
-      configMap:
-        name: ${fluentbit:configMapName}
+      - name: syn-config
+        configMap:
+          name: ${fluentbit:configMapName}
     extraVolumeMounts:
       - name: syn-config
         mountPath: /fluent-bit/etc/syn-fluent-bit.conf
