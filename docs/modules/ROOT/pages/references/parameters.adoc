@@ -40,7 +40,7 @@ See
 https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[the
 upstream documentation] for available configuration parameters.
 
-Please note that 'HTTP_Server' should not be disabled, as otherwise the
+Please note that 'HTTP_Server' shouldn't be disabled, as otherwise the
 container readiness and liveness probes will fail, and the pods will go into
 CrashLoopBackOff.
 
@@ -84,7 +84,7 @@ having multiple filters using the same plugin.
 
 NOTE: Please note that filter order matters to fluent-bit.
 The component will always output filters sorted by their keys.
-This behavior can be used to define sort order by prefixing keys in filters with a number (e.g. `00_kubernetes` would come before `10_modify`).
+This behavior can be used to define sort order by prefixing keys in filters with a number (for example `00_kubernetes` would come before `10_modify`).
 When prefixing keys like this, the `Name` field must be provided, as fluent-bit won't know which filter plugin to use otherwise.
 
 == `config.parsers`
@@ -180,7 +180,23 @@ set in `config.service`.
 type:: list
 default:: `[]`
 
-Tolerations that are configured on the fluent-bit pods
+Tolerations that are configured on the fluent-bit pods.
+
+== `extraVolumes`
+
+[horizontal]
+type:: list of https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#volume-v1-core[Volume]
+default:: `[syn-config]`
+
+Additional volumes that are configured on the fluent-bit pods.
+
+== `extraVolumeMounts`
+
+[horizontal]
+type:: list of https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#volumemount-v1-core[VolumeMount]
+default:: `[syn-config]`
+
+Additional volume mounts that are configured on the fluent-bit pods.
 
 == `charts.fluent_bit`
 
