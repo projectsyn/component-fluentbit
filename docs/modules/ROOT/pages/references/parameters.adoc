@@ -185,7 +185,7 @@ Tolerations that are configured on the fluent-bit pods.
 == `extraVolumes`
 
 [horizontal]
-type:: list
+type:: list of https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#volume-v1-core[Volume]
 default:: `[syn-config]`
 
 Additional volumes that are configured on the fluent-bit pods.
@@ -193,7 +193,7 @@ Additional volumes that are configured on the fluent-bit pods.
 == `extraVolumeMounts`
 
 [horizontal]
-type:: list
+type:: list of https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.20/#volumemount-v1-core[VolumeMount]
 default:: `[syn-config]`
 
 Additional volume mounts that are configured on the fluent-bit pods.
