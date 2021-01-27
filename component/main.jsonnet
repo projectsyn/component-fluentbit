@@ -73,7 +73,32 @@ local configmap = kube.ConfigMap(params.configMapName) {
   },
 };
 
-// Define outputs below
 {
   '10_custom_config': configmap,
+  [if params.monitoring.enabled then '20_service_monitor']:
+    kube._Object('monitoring.coreos.com/v1', 'ServiceMonitor', 'fluent-bit') {
+      metadata+: {
+        namespace: params.namespace,
+        labels+: {
+          'app.kubernetes.io/name': 'fluent-bit',
+          'app.kubernetes.io/instance': 'fluent-bit-cluster',
+          'app.kubernetes.io/version':
+            std.split(params.images.fluent_bit.tag, '@')[0],
+          'app.kubernetes.io/component': 'fluent-bit',
+          'app.kubernetes.io/managed-by': 'commodore',
+        },
+      },
+      spec: {
+        endpoints: [{
+          port: 'http',
+          path: '/api/v1/metrics/prometheus',
+        }],
+        selector: {
+          matchLabels: {
+            'app.kubernetes.io/name': 'fluent-bit',
+            'app.kubernetes.io/instance': 'fluent-bit',
+          },
+        },
+      },
+    },
 }

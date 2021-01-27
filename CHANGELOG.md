@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Create ServiceMonitor manually ([#9])
 - Properly quote 'On' and 'Off' values in `class/defaults.yml`
 - Ensure filters are added to fluent-bit config in predictable order ([#6])
 
@@ -29,3 +30,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#6]: https://github.com/projectsyn/component-fluentbit/pull/6
 [#7]: https://github.com/projectsyn/component-fluentbit/pull/7
 [#8]: https://github.com/projectsyn/component-fluentbit/pull/8
+[#9]: https://github.com/projectsyn/component-fluentbit/pull/9
