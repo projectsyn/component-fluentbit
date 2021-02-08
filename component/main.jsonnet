@@ -69,7 +69,8 @@ local configmap = kube.ConfigMap(params.configMapName) {
     },
   },
   data: {
-    'syn-fluent-bit.conf': std.join('\n', [service, parsers, filters, inputs, outputs]),
+    'fluent-bit.conf': std.join('\n', [service, parsers, filters, inputs, outputs]),
+    'custom_parsers.conf': '',
   },
 };
 
