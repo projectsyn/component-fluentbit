@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Upgrade Helm chart to v0.7.13 ([#7])
 - Make volumes configurable ([#8])
+- Upgrade Helm chart to 0.15.1 ([#10])
 
 ### Fixed
 
@@ -31,3 +32,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#7]: https://github.com/projectsyn/component-fluentbit/pull/7
 [#8]: https://github.com/projectsyn/component-fluentbit/pull/8
 [#9]: https://github.com/projectsyn/component-fluentbit/pull/9
+[#10]: https://github.com/projectsyn/component-fluentbit/pull/10

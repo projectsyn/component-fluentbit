@@ -58,17 +58,11 @@ parameters:
     # Add tolerations to the pod spec
     tolerations: []
     # Add volumes to the pod spec
-    extraVolumes:
-      - name: syn-config
-        configMap:
-          name: ${fluentbit:configMapName}
-    extraVolumeMounts:
-      - name: syn-config
-        mountPath: /fluent-bit/etc/syn-fluent-bit.conf
-        subPath: syn-fluent-bit.conf
+    extraVolumes: []
+    extraVolumeMounts: []
     charts:
-      fluent_bit: '0.7.13'
+      fluent_bit: 0.15.1
     images:
       fluent_bit:
         image: docker.io/fluent/fluent-bit
-        tag: '1.5.4'
+        tag: 1.7.2

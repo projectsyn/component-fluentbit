@@ -25,18 +25,15 @@ parameters:
           image:
             repository: ${fluentbit:images:fluent_bit:image}
             tag: ${fluentbit:images:fluent_bit:tag}
-          config:
-            customParsers: ''
-            filters: ''
-            inputs: ''
-            outputs: ''
-            service: '@INCLUDE syn-fluent-bit.conf'
+          existingConfigMap: ${fluentbit:configMapName}
           service:
             port: ${fluentbit:monitoring:metricsPort}
           podSecurityPolicy:
             create: ${fluentbit:psp_enabled}
           serviceMonitor:
             enabled: ${fluentbit:monitoring:enabled}
+          prometheusRule:
+            enabled: false
           tolerations: ${fluentbit:tolerations}
           extraVolumes: ${fluentbit:extraVolumes}
           extraVolumeMounts: ${fluentbit:extraVolumeMounts}

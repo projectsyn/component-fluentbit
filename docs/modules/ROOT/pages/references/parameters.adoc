@@ -202,7 +202,7 @@ Additional volume mounts that are configured on the fluent-bit pods.
 
 [horizontal]
 type:: string
-default:: `0.6.3`
+default:: `0.15.1`
 
 == `images.fluent_bit.image`
 
@@ -214,7 +214,7 @@ default:: `docker.io/fluent/fluent-bit`
 
 [horizontal]
 type:: string
-default:: `1.5.4`
+default:: `1.7.2`
 
 == Example
 

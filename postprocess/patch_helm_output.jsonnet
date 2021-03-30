@@ -10,7 +10,7 @@ local chart_output_dir = std.extVar('output_path');
 // DaemonSet. This will trigger fluentbit restarts if the config changes
 local configmap_file = chart_output_dir + '/../../../10_custom_config.yaml';
 local configmap = std.prune(com.yaml_load_all(configmap_file))[0];
-local configmap_contents_hash = std.md5(configmap.data['syn-fluent-bit.conf']);
+local configmap_contents_hash = std.md5(configmap.data['fluent-bit.conf']);
 
 local list_dir(dir, basename=true) =
   std.native('list_dir')(dir, basename);
