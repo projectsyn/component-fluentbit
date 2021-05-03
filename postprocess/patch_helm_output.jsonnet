@@ -58,7 +58,7 @@ local fixup_obj(obj) =
 
 local fixup(obj_file) =
   local objs = std.prune(com.yaml_load_all(obj_file));
-  [fixup_obj(obj) for obj in objs];
+  [ fixup_obj(obj) for obj in objs ];
 
 {
   [stem(elem)]: fixup(input_file(elem))
