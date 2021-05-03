@@ -19,11 +19,11 @@ local render_fluentbit_cfg(type, name, cfg) =
     // explicitly add 'Name' key as first element of section
     if realname != '' then std.format('Name %s', realname),
   ] + [
-    std.format('%s %s', [key, realcfg[key]])
+    std.format('%s %s', [ key, realcfg[key] ])
     for key in std.objectFields(realcfg)
   ]);
   local entriesStr = std.join('\n    ', entries);
-  std.format('%s\n    %s', [header, entriesStr]);
+  std.format('%s\n    %s', [ header, entriesStr ]);
 
 
 local inputs = std.join('\n', [
@@ -69,7 +69,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
     },
   },
   data: {
-    'fluent-bit.conf': std.join('\n', [service, parsers, filters, inputs, outputs]),
+    'fluent-bit.conf': std.join('\n', [ service, parsers, filters, inputs, outputs ]),
     'custom_parsers.conf': '',
   },
 };
@@ -90,10 +90,10 @@ local configmap = kube.ConfigMap(params.configMapName) {
         },
       },
       spec: {
-        endpoints: [{
+        endpoints: [ {
           port: 'http',
           path: '/api/v1/metrics/prometheus',
-        }],
+        } ],
         selector: {
           matchLabels: {
             'app.kubernetes.io/name': 'fluent-bit',
