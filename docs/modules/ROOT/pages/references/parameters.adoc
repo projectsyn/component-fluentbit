@@ -25,6 +25,40 @@ Fluent-bit uses the strings 'On' and 'Off' for boolean configuration values.
 Make sure that you quote those strings to avoid them getting interpreted as booleans when the hierarchy YAML is parsed.
 ====
 
+=== Repeatable fluent-bit options
+
+Repeatable fluent-bit options can be configured by giving them as lists under the repeatable option's key:
+
+[source,yaml]
+----
+Repatable_Key:
+ - Value1
+ - Value2
+----
+
+Such options will be expanded to the following fluent-bit config snippet:
+
+[source]
+----
+Repeatable_Key Value1
+Repeatable_Key Value2
+----
+
+If only a single value needs to be configured for a repeatable option, the option can be given with a string value:
+
+[source,yaml]
+----
+Repeatable_Key: Value1
+----
+
+[IMPORTANT]
+====
+The component doesn't have any way to validate whether fluent-bit options are repeatable or not.
+Therefore, the component will treat any option with an array value as a repeatable option.
+
+It's the user's responsibility to ensure that they only use array values for fluent-bit options which are repeatable.
+====
+
 == `config.service`
 
 [horizontal]
@@ -210,4 +244,21 @@ config:
       Name: modify
       Match: '*'
       Add: "syn_cluster_name ${cluster:name}"
+----
+
+[source,yaml]
+----
+# Configure repeatable options.
+#
+# This example configures the `systemd` input plugin to pick up logs from
+# both the kubelet and docker units.
+config:
+  inputs:
+    systemd:
+      Name: systemd
+      Tag: host.*
+      Systemd_Filter:
+        - _SYSTEMD_UNIT=kubelet.service
+        - _SYSTEMD_UNIT=docker.service
+      Read_From_Tail: 'On'
 ----
