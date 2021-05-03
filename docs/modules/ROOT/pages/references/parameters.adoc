@@ -15,7 +15,8 @@ The namespace in which to deploy this component.
 [horizontal]
 type:: dict
 
-The configuration for fluent-bit itself. Any fluent-bit options can be provided verbatim under the available sections.
+The configuration for fluent-bit itself. 
+Any fluent-bit options can be provided verbatim under the available sections.
 Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, and `[PARSER]`  are supported.
 The respective keys are `service`, `inputs`, `outputs`, `filters`, and `parsers`.
 
@@ -119,7 +120,7 @@ The component doesn't configure any custom parsers.
 However, fluent-bit already provides a multitude of parsers in the docker image.
 
 Those parsers are made available by default as key `Parsers_File` in the service section is set to `parsers.conf`.
-The parsers provided by that file be inspected on https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[GitHub].
+The parsers provided by that file be inspected https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[in the docs].
 
 `config.parsers` should have one key per `[PARSER]` section that should be added to the fluent-bit configuration file.
 Each key of `config.parsers` should contain a dict holding the configuration values for the section which will be reproduced verbatim (including capitalization of keys and values).
