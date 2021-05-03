@@ -80,6 +80,7 @@ default:: `{'containers': {'Name': 'tail', 'Path': '/var/log/containers/*.log', 
 
 Configure fluent-bit inputs.
 `config.inputs` should have one key per `[INPUT]` section that should be added to the fluent-bit configuration file.
+
 Each key of `config.inputs` should contain a dict holding the configuration values for the section which will be reproduced verbatim (including capitalization of keys and values).
 If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
 This allows avoiding repetition, when it's unnecessary, while still supporting having multiple inputs using the same plugin.
@@ -92,15 +93,20 @@ default:: `{'00_kubernetes:'{'Name': 'kubernetes', 'Match': 'kube.*', 'Merge_Log
 
 Configure fluent-bit filters.
 `config.filters` should have one key per `[FILTER]` section that should be added to the fluent-bit configuration file.
+
 Each key of `config.filters` should contain a dict holding the configuration values for the section which will be reproduced verbatim (including
 capitalization of keys and values).
 If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
 This allows avoiding repetition, when it's unnecessary, while still supporting having multiple filters using the same plugin.
 
-NOTE: Please note that filter order matters to fluent-bit.
+[NOTE]
+====
+Please note that filter order matters to fluent-bit.
 The component will always output filters sorted by their keys.
+
 This behavior can be used to define sort order by prefixing keys in filters with a number (for example `00_kubernetes` would come before `10_modify`).
 When prefixing keys like this, the `Name` field must be provided, as fluent-bit won't know which filter plugin to use otherwise.
+====
 
 == `config.parsers`
 
@@ -111,11 +117,13 @@ default:: `{}`
 Configure fluent-bit parsers.
 The component doesn't configure any custom parsers.
 However, fluent-bit already provides a multitude of parsers in the docker image.
+
 Those parsers are made available by default as key `Parsers_File` in the service section is set to `parsers.conf`.
 The parsers provided by that file be inspected on https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[GitHub].
 
 `config.parsers` should have one key per `[PARSER]` section that should be added to the fluent-bit configuration file.
 Each key of `config.parsers` should contain a dict holding the configuration values for the section which will be reproduced verbatim (including capitalization of keys and values).
+
 If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
 This allows avoiding repetition, when it's unnecessary, while still supporting having multiple parsers using the same plugin.
 
