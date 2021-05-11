@@ -40,3 +40,9 @@ parameters:
         helm_params:
           namespace: ${fluentbit:namespace}
           name_template: fluent-bit
+  commodore:
+    postprocess:
+      filters:
+        - type: jsonnet
+          path: fluentbit/01_fluentbit_helmchart/fluent-bit/templates
+          filter: postprocess/patch_helm_output.jsonnet

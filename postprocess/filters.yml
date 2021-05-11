@@ -1,4 +1,0 @@
-filters:
-  - output_path: fluentbit/01_fluentbit_helmchart/fluent-bit/templates
-    type: jsonnet
-    filter: patch_helm_output.jsonnet
