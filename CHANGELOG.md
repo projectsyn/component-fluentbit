@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v1.0.1]
+### Fixed
+- Configure custom parsers in separate file ([#13])
+
 ## [v1.0.0]
 ### Added
 
@@ -28,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ensure filters are added to fluent-bit config in predictable order ([#6])
 
 [Unreleased]: https://github.com/projectsyn/component-fluentbit/compare/v1.0.0...HEAD
+[v1.0.1]: https://github.com/projectsyn/component-fluentbit/releases/tag/v1.0.1
 [v1.0.0]: https://github.com/projectsyn/component-fluentbit/releases/tag/v1.0.0
 
 [#1]: https://github.com/projectsyn/component-fluentbit/pull/1
@@ -39,3 +44,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#9]: https://github.com/projectsyn/component-fluentbit/pull/9
 [#10]: https://github.com/projectsyn/component-fluentbit/pull/10
 [#11]: https://github.com/projectsyn/component-fluentbit/pull/11
+[#13]: https://github.com/projectsyn/component-fluentbit/pull/13

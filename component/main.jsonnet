@@ -1,3 +1,4 @@
+local com = import 'lib/commodore.libjsonnet';
 local kap = import 'lib/kapitan.libjsonnet';
 local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
@@ -71,13 +72,52 @@ local filters = std.join('\n', [
   for elem in std.sort(std.objectFields(params.config.filters))
 ]);
 
-local serviceCfg = {
-  Daemon: 'Off',
-  Plugins_File: 'plugins.conf',
-  HTTP_Listen: '0.0.0.0',
-  HTTP_Server: 'On',
-  HTTP_Port: params.monitoring.metricsPort,
-} + params.config.service;
+local userParsersFile =
+  local userParsers = com.getValueOrDefault(
+    params.config.service,
+    'Parsers_File',
+    []
+  );
+  if std.isArray(userParsers) then
+    userParsers
+  else
+    [ userParsers ];
+
+local customParsersFragment =
+  if std.length(parsers) > 0 then
+    {
+      Parsers_File+: [
+        'custom_parsers.conf',
+      ],
+    }
+  else
+    {};
+
+local serviceCfg =
+  {
+    Daemon: 'Off',
+    Plugins_File: 'plugins.conf',
+    // Default configuration: always use fluentbit default parsers.conf
+    Parsers_File:
+      [ 'parsers.conf' ] +
+      // Add in any parser files configured by the user.
+      userParsersFile,
+    HTTP_Listen: '0.0.0.0',
+    HTTP_Server: 'On',
+    HTTP_Port: params.monitoring.metricsPort,
+  } +
+  // Remove Parsers_File config from user provided service config,
+  // we already add any Parsers_File configs provided by the user in the
+  // dict above.
+  std.prune(params.config.service { Parsers_File: null }) +
+  // Add Parsers_File entry for custom_parsers.conf, if any parsers are
+  // defined in the config hierarchy.
+  customParsersFragment +
+  // finally, deduplicate Parsers_File array
+  {
+    Parsers_File: std.set(super.Parsers_File),
+  };
+
 
 local service = render_fluentbit_cfg('SERVICE', '', serviceCfg);
 
@@ -94,12 +134,13 @@ local configmap = kube.ConfigMap(params.configMapName) {
     },
   },
   data: {
-    'fluent-bit.conf': std.join('\n', [ service, parsers, filters, inputs, outputs ]),
-    'custom_parsers.conf': '',
+    'fluent-bit.conf': std.join('\n', [ service, filters, inputs, outputs ]),
+    'custom_parsers.conf': parsers,
   },
 };
 
 {
+  '00_namespace': kube.Namespace(params.namespace),
   '10_custom_config': configmap,
   [if params.monitoring.enabled then '20_service_monitor']:
     kube._Object('monitoring.coreos.com/v1', 'ServiceMonitor', 'fluent-bit') {

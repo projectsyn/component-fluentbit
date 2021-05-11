@@ -7,7 +7,6 @@ parameters:
       service:
         Flush: 1
         Log_Level: info
-        Parsers_File: parsers.conf
       # If key Name (specifying the plugin) doesn't exist for an entry, the
       # entry's key is used as the plugin name. This allows having multiple
       # tail inputs for example. This is true for inputs, outputs, parsers and
