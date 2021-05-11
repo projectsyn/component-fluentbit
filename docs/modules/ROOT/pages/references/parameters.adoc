@@ -15,7 +15,7 @@ The namespace in which to deploy this component.
 [horizontal]
 type:: dict
 
-The configuration for fluent-bit itself. 
+The configuration for fluent-bit itself.
 Any fluent-bit options can be provided verbatim under the available sections.
 Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, and `[PARSER]`  are supported.
 The respective keys are `service`, `inputs`, `outputs`, `filters`, and `parsers`.
@@ -64,7 +64,7 @@ It's the user's responsibility to ensure that they only use array values for flu
 
 [horizontal]
 type:: dict
-default:: `{'Flush': 1, 'Log_Level': 'info', 'Parsers_File': 'parsers.conf'}`
+default:: `{'Flush': 1, 'Log_Level': 'info'}`
 
 Configure the fluent-bit service.
 See https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[the upstream documentation] for available configuration parameters.
@@ -119,10 +119,11 @@ Configure fluent-bit parsers.
 The component doesn't configure any custom parsers.
 However, fluent-bit already provides a multitude of parsers in the docker image.
 
-Those parsers are made available by default as key `Parsers_File` in the service section is set to `parsers.conf`.
+The component will always add line `Parsers_File parsers.conf` in the main fluent-bit config to make the default parsers available.
 The parsers provided by that file be inspected https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_section[in the docs].
 
-`config.parsers` should have one key per `[PARSER]` section that should be added to the fluent-bit configuration file.
+`config.parsers` should have one key per `[PARSER]` section that will be rendered into the fluent-bit ConfigMap in `custom_parsers.conf`.
+If `config.parsers` contains at least one entry, the component will add line `Parsers_File custom_parsers.conf` to the main fluent-bit config file.
 Each key of `config.parsers` should contain a dict holding the configuration values for the section which will be reproduced verbatim (including capitalization of keys and values).
 
 If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
