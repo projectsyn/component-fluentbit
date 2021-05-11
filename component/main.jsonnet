@@ -140,6 +140,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
 };
 
 {
+  '00_namespace': kube.Namespace(params.namespace),
   '10_custom_config': configmap,
   [if params.monitoring.enabled then '20_service_monitor']:
     kube._Object('monitoring.coreos.com/v1', 'ServiceMonitor', 'fluent-bit') {
