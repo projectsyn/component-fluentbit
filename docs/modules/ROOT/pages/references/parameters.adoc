@@ -77,7 +77,7 @@ The contents of this key will be reproduced verbatim (including capitalization o
 
 [horizontal]
 type:: dict
-default:: `{'containers': {'Name': 'tail', 'Path': '/var/log/containers/*.log', 'Parser': 'docker', 'Tag': 'kube.*', 'Mem_Buf_Limit': '5MB', 'Skip_Long_lines': 'On'}, 'systemd': {'Tag': 'host.*', 'Systemd_Filter': '_SYSTEMD_UNIT=kubelet.service', 'Read_From_Tail': 'On'}}`
+default:: `+{'containers': {'Name': 'tail', 'Path': '/var/log/containers/*.log', 'Parser': 'docker', 'Tag': 'kube.*', 'Mem_Buf_Limit': '5MB', 'Skip_Long_lines': 'On'}, 'systemd': {'Tag': 'host.*', 'Systemd_Filter': '_SYSTEMD_UNIT=kubelet.service', 'Read_From_Tail': 'On'}}+`
 
 Configure fluent-bit inputs.
 `config.inputs` should have one key per `[INPUT]` section that should be added to the fluent-bit configuration file.
