@@ -14,6 +14,6 @@ jobs:
           - lint_yaml
           - docs
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run ${{ matrix.command }}
         run: make ${{ matrix.command }}
