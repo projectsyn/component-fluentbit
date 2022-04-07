@@ -1,7 +1,7 @@
 ---
 :global:
   componentName: fluentbit
-  feature_goldenTests: false
+  feature_goldenTests: true
 
 docs/antora.yml:
   name: fluentbit
