@@ -1,0 +1,8 @@
+---
+:global:
+  componentName: fluentbit
+  feature_goldenTests: false
+
+docs/antora.yml:
+  name: fluentbit
+  title: fluentbit
