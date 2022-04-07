@@ -1,3 +1,4 @@
+---
 name: Pull Request
 on:
   pull_request:
@@ -38,3 +39,14 @@ jobs:
           path: ${{ env.COMPONENT_NAME }}
       - name: Compile component
         run: make test
+  golden:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.COMPONENT_NAME }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: ${{ env.COMPONENT_NAME }}
+      - name: Golden diff
+        run: make golden-diff
