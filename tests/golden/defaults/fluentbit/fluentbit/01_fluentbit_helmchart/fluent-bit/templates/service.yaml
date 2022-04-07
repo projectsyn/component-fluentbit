@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/instance: fluent-bit
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/version: 1.7.2
-    helm.sh/chart: fluent-bit-0.15.1
+    app.kubernetes.io/version: 1.8.15
+    helm.sh/chart: fluent-bit-0.19.23
   name: fluent-bit
 spec:
   ports:
