@@ -1,3 +1,7 @@
+#
+# File managed by ModuleSync - Do Not Edit
+#
+
 extends: default
 
 rules:
@@ -7,4 +11,8 @@ rules:
     level: warning
 
 ignore: |
-  helmcharts
+  dependencies/
+  helmcharts/
+  manifests/
+  vendor/
+  compiled/
