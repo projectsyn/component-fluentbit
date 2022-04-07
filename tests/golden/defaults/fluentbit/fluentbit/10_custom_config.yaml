@@ -17,7 +17,7 @@ metadata:
     app.kubernetes.io/instance: fluent-bit-cluster
     app.kubernetes.io/managed-by: commodore
     app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/version: 1.7.2
+    app.kubernetes.io/version: 1.9.1
     name: syn-fluentbit-config
   name: syn-fluentbit-config
   namespace: syn-fluentbit

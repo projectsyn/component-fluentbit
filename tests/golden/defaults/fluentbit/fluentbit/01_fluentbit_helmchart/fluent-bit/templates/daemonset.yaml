@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/instance: fluent-bit
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/version: 1.7.2
-    helm.sh/chart: fluent-bit-0.15.1
+    app.kubernetes.io/version: 1.8.15
+    helm.sh/chart: fluent-bit-0.19.23
   name: fluent-bit
 spec:
   selector:
@@ -25,7 +25,7 @@ spec:
         app.kubernetes.io/name: fluent-bit
     spec:
       containers:
-      - image: docker.io/fluent/fluent-bit:1.7.2
+      - image: docker.io/fluent/fluent-bit:1.9.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -38,10 +38,10 @@ spec:
           protocol: TCP
         readinessProbe:
           httpGet:
-            path: /
+            path: /api/v1/health
             port: http
         volumeMounts:
-        - mountPath: fluent-bit/etc/fluent-bit.conf
+        - mountPath: /fluent-bit/etc/fluent-bit.conf
           name: config
           subPath: fluent-bit.conf
         - mountPath: /fluent-bit/etc/custom_parsers.conf
@@ -55,6 +55,8 @@ spec:
         - mountPath: /etc/machine-id
           name: etcmachineid
           readOnly: true
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
       serviceAccountName: fluent-bit
       volumes:
       - configMap:
