@@ -60,7 +60,7 @@ parameters:
     extraVolumes: []
     extraVolumeMounts: []
     charts:
-      fluent_bit: 0.15.1
+      fluent_bit: 0.19.23
     images:
       fluent_bit:
         image: docker.io/fluent/fluent-bit
