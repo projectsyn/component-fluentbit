@@ -20,23 +20,7 @@ parameters:
         output_type: yaml
         input_paths:
           - fluentbit/helmcharts/fluent-bit
-        helm_values:
-          podAnnotations: ${fluentbit:annotations}
-          image:
-            repository: ${fluentbit:images:fluent_bit:image}
-            tag: ${fluentbit:images:fluent_bit:tag}
-          existingConfigMap: ${fluentbit:configMapName}
-          service:
-            port: ${fluentbit:monitoring:metricsPort}
-          podSecurityPolicy:
-            create: ${fluentbit:psp_enabled}
-          serviceMonitor:
-            enabled: ${fluentbit:monitoring:enabled}
-          prometheusRule:
-            enabled: false
-          tolerations: ${fluentbit:tolerations}
-          extraVolumes: ${fluentbit:extraVolumes}
-          extraVolumeMounts: ${fluentbit:extraVolumeMounts}
+        helm_values: ${fluentbit:helm_values}
         helm_params:
           namespace: ${fluentbit:namespace}
           name_template: fluent-bit
