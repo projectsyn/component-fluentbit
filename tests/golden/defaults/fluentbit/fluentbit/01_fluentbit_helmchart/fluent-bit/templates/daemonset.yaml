@@ -25,7 +25,7 @@ spec:
         app.kubernetes.io/name: fluent-bit
     spec:
       containers:
-      - image: docker.io/fluent/fluent-bit:1.9.1
+      - image: docker.io/fluent/fluent-bit:1.9.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
