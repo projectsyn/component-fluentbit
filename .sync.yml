@@ -3,10 +3,6 @@
   componentName: fluentbit
   feature_goldenTests: true
 
-docs/antora.yml:
-  name: fluentbit
-  title: fluentbit
-
 LICENSE:
   year: 2020
 
