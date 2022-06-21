@@ -60,7 +60,9 @@ parameters:
     extraVolumes: []
     extraVolumeMounts: []
     charts:
-      fluent_bit: 0.19.23
+      fluent-bit:
+        source: https://fluent.github.io/helm-charts
+        version: 0.19.23
     images:
       fluent_bit:
         image: docker.io/fluent/fluent-bit

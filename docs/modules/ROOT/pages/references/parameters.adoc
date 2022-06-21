@@ -206,11 +206,13 @@ default:: `[syn-config]`
 
 Additional volume mounts that are configured on the fluent-bit pods.
 
-== `charts.fluent_bit`
+== `charts.fluent-bit.version`
 
 [horizontal]
 type:: string
-default:: `0.15.1`
+default:: See https://github.com/projectsyn/component-fluentbit/blob/master/class/defaults.yml[class/defaults.yml]
+
+The version of the fluent-bit Helm chart that's used.
 
 == `images.fluent_bit.image`
 
