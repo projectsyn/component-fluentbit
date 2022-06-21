@@ -2,9 +2,9 @@ parameters:
   kapitan:
     dependencies:
       - type: helm
-        output_path: dependencies/fluentbit/helmcharts/fluent-bit-${fluentbit:charts:fluent_bit}
-        source: https://fluent.github.io/helm-charts
-        version: ${fluentbit:charts:fluent_bit}
+        output_path: dependencies/fluentbit/helmcharts/fluent-bit-${fluentbit:charts:fluent-bit:version}
+        source: ${fluentbit:charts:fluent-bit:source}
+        version: ${fluentbit:charts:fluent-bit:version}
         chart_name: fluent-bit
     compile:
       - input_paths:
@@ -19,7 +19,7 @@ parameters:
         input_type: helm
         output_type: yaml
         input_paths:
-          - fluentbit/helmcharts/fluent-bit-${fluentbit:charts:fluent_bit}
+          - fluentbit/helmcharts/fluent-bit-${fluentbit:charts:fluent-bit:version}
         helm_values: ${fluentbit:helm_values}
         helm_params:
           namespace: ${fluentbit:namespace}
