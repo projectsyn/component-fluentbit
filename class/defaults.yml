@@ -21,11 +21,11 @@ parameters:
           Parser: docker
           Tag: kube.*
           Mem_Buf_Limit: 5MB
-          Skip_Long_lines: 'On'
+          Skip_Long_lines: "On"
         systemd:
           Tag: host.*
           Systemd_Filter: _SYSTEMD_UNIT=kubelet.service
-          Read_From_Tail: 'On'
+          Read_From_Tail: "On"
       # We don't define any outputs by default, as we have no idea where logs
       # should be shipped.
       outputs: {}
@@ -34,17 +34,18 @@ parameters:
       # included parsers. The set of available parsers can be found at
       # https://github.com/fluent/fluent-bit/blob/master/conf/parsers.conf
       parsers: {}
+      multiline_parsers: {}
       # The kubernetes filter is almost always wanted
       filters:
         00_kubernetes:
           Name: kubernetes
           Match: kube.*
           # Extract log elements and add them as top-level keys
-          Merge_Log: 'On'
+          Merge_Log: "On"
           # Keep the original log message
-          Keep_Log: 'On'
-          K8S-Logging.Parser: 'On'
-          K8S-Logging.Exclude: 'On'
+          Keep_Log: "On"
+          K8S-Logging.Parser: "On"
+          K8S-Logging.Exclude: "On"
     # fluent-bit extra annotations
     annotations:
       fluentbit.io/exclude: "true"
