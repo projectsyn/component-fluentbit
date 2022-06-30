@@ -17,8 +17,8 @@ type:: dict
 
 The configuration for fluent-bit itself.
 Any fluent-bit options can be provided verbatim under the available sections.
-Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, and `[PARSER]`  are supported.
-The respective keys are `service`, `inputs`, `outputs`, `filters`, and `parsers`.
+Currently sections `[SERVICE]`, `[INPUT]`, `[OUTPUT]`, `[FILTER]`, `[PARSER]` and `[MULTILINE_PARSER]` are supported.
+The respective keys are `service`, `inputs`, `outputs`, `filters`, `parsers` and `multiline_parsers`.
 
 [NOTE]
 ====
@@ -132,6 +132,22 @@ Each key of `config.parsers` should contain a dict holding the configuration val
 
 If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
 This allows avoiding repetition, when it's unnecessary, while still supporting having multiple parsers using the same plugin.
+
+== `config.multiline_parsers`
+
+[horizontal]
+type:: dict
+default:: `{}`
+
+Configure fluent-bit multiline parsers.
+The component doesn't configure any custom multiline parsers.
+
+`config.multiline_parsers` should have one key per `[MULTILINE_PARSER]` section that will be rendered into the fluent-bit ConfigMap in `custom_parsers.conf`.
+If `config.multiline_parsers` contains at least one entry, the component will add line `Parsers_File custom_parsers.conf` to the main fluent-bit config file.
+Each key of `config.multiline_parsers` should contain a dict holding the configuration values for the section which will be reproduced verbatim (including capitalization of keys and values).
+
+If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
+This allows avoiding repetition, when it's unnecessary, while still supporting having multiple multiline parsers using the same plugin.
 
 == `config.outputs`
 

@@ -67,6 +67,11 @@ local parsers = std.join('\n', [
   for elem in std.objectFields(params.config.parsers)
 ]);
 
+local multiline_parsers = std.join('\n', [
+  render_fluentbit_cfg('MULTILINE_PARSER', elem, params.config.multiline_parsers[elem])
+  for elem in std.objectFields(params.config.multiline_parsers)
+]);
+
 local filters = std.join('\n', [
   render_fluentbit_cfg('FILTER', elem, params.config.filters[elem])
   for elem in std.sort(std.objectFields(params.config.filters))
@@ -96,8 +101,16 @@ local userParsersFile =
     []
   );
 
+local all_parsers =
+  local ps = (
+    if std.length(parsers) > 0 then [ parsers ] else []
+  ) + (
+    if std.length(multiline_parsers) > 0 then [ multiline_parsers ] else []
+  );
+  std.join('\n', ps);
+
 local customParsersFragment =
-  if std.length(parsers) > 0 then
+  if std.length(all_parsers) > 0 then
     {
       Parsers_File+: [
         'custom_parsers.conf',
@@ -144,7 +157,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
   },
   data: {
     'fluent-bit.conf': std.join('\n', [ service, filters, inputs, outputs ]),
-    'custom_parsers.conf': parsers,
+    'custom_parsers.conf': if std.length(all_parsers) > 0 then all_parsers else '',
   },
 };
 
