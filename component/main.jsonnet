@@ -78,10 +78,23 @@ local userParsersFile =
     'Parsers_File',
     []
   );
-  if std.isArray(userParsers) then
-    userParsers
-  else
-    [ userParsers ];
+  local uparsers =
+    if std.isArray(userParsers) then
+      userParsers
+    else
+      [ userParsers ];
+  // Remove duplicates in `userParsers`, preserving the order of the defined
+  // parser files. Additionally we remove 'parsers.conf' which is included
+  // unconditionally below.
+  std.foldl(
+    function(parsers, p)
+      if p != 'parsers.conf' && !std.member(parsers, p) then
+        parsers + [ p ]
+      else
+        parsers,
+    uparsers,
+    []
+  );
 
 local customParsersFragment =
   if std.length(parsers) > 0 then
@@ -112,11 +125,7 @@ local serviceCfg =
   std.prune(params.config.service { Parsers_File: null }) +
   // Add Parsers_File entry for custom_parsers.conf, if any parsers are
   // defined in the config hierarchy.
-  customParsersFragment +
-  // finally, deduplicate Parsers_File array
-  {
-    Parsers_File: std.set(super.Parsers_File),
-  };
+  customParsersFragment;
 
 
 local service = render_fluentbit_cfg('SERVICE', '', serviceCfg);

@@ -73,6 +73,10 @@ Please note that 'HTTP_Server' shouldn't be disabled, as otherwise the container
 
 The contents of this key will be reproduced verbatim (including capitalization of keys and values) in the fluent-bit configuration file in section `[SERVICE]`.
 
+The contents of `Parsers_File` in this key will be deduplicated, preserving the order of entries in the key.
+Additionally, the component will ensure that `parsers.conf` is always configured as the first `Parsers_File`.
+The component will always add parsers defined in `config.parsers` as the last `Parsers_File` entry.
+
 == `config.inputs`
 
 [horizontal]
