@@ -13,6 +13,6 @@ roleRef:
   kind: ClusterRole
   name: fluent-bit
 subjects:
-- kind: ServiceAccount
-  name: fluent-bit
-  namespace: syn-fluentbit
+  - kind: ServiceAccount
+    name: fluent-bit
+    namespace: syn-fluentbit

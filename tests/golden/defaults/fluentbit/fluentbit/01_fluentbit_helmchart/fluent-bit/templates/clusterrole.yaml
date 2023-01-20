@@ -9,12 +9,12 @@ metadata:
     helm.sh/chart: fluent-bit-0.19.23
   name: fluent-bit
 rules:
-- apiGroups:
-  - ''
-  resources:
-  - namespaces
-  - pods
-  verbs:
-  - get
-  - list
-  - watch
+  - apiGroups:
+      - ''
+    resources:
+      - namespaces
+      - pods
+    verbs:
+      - get
+      - list
+      - watch
