@@ -1,14 +1,35 @@
 apiVersion: v1
 data:
   custom_parsers.conf: ''
-  fluent-bit.conf: "[SERVICE]\n    Daemon Off\n    Flush 1\n    HTTP_Listen 0.0.0.0\n\
-    \    HTTP_Port 2020\n    HTTP_Server On\n    Log_Level info\n    Parsers_File\
-    \ parsers.conf\n    Plugins_File plugins.conf\n[FILTER]\n    Name kubernetes\n\
-    \    K8S-Logging.Exclude On\n    K8S-Logging.Parser On\n    Keep_Log On\n    Match\
-    \ kube.*\n    Merge_Log On\n[INPUT]\n    Name tail\n    Mem_Buf_Limit 5MB\n  \
-    \  Parser docker\n    Path /var/log/containers/*.log\n    Skip_Long_lines On\n\
-    \    Tag kube.*\n[INPUT]\n    Name systemd\n    Read_From_Tail On\n    Systemd_Filter\
-    \ _SYSTEMD_UNIT=kubelet.service\n    Tag host.*\n"
+  fluent-bit.conf: |
+    [SERVICE]
+        Daemon Off
+        Flush 1
+        HTTP_Listen 0.0.0.0
+        HTTP_Port 2020
+        HTTP_Server On
+        Log_Level info
+        Parsers_File parsers.conf
+        Plugins_File plugins.conf
+    [FILTER]
+        Name kubernetes
+        K8S-Logging.Exclude On
+        K8S-Logging.Parser On
+        Keep_Log On
+        Match kube.*
+        Merge_Log On
+    [INPUT]
+        Name tail
+        Mem_Buf_Limit 5MB
+        Parser docker
+        Path /var/log/containers/*.log
+        Skip_Long_lines On
+        Tag kube.*
+    [INPUT]
+        Name systemd
+        Read_From_Tail On
+        Systemd_Filter _SYSTEMD_UNIT=kubelet.service
+        Tag host.*
 kind: ConfigMap
 metadata:
   annotations: {}
