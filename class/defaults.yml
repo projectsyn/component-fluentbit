@@ -67,7 +67,7 @@ parameters:
     images:
       fluent_bit:
         image: docker.io/fluent/fluent-bit
-        tag: 1.9.3
+        tag: 1.9.10
     helm_values:
       podAnnotations: ${fluentbit:annotations}
       image:
