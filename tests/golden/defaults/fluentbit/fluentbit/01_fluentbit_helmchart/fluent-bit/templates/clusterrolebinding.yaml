@@ -6,7 +6,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: fluent-bit
     app.kubernetes.io/version: 1.8.15
-    helm.sh/chart: fluent-bit-0.19.23
+    helm.sh/chart: fluent-bit-0.19.24
   name: fluent-bit
 roleRef:
   apiGroup: rbac.authorization.k8s.io
