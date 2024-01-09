@@ -63,7 +63,7 @@ parameters:
     charts:
       fluent-bit:
         source: https://fluent.github.io/helm-charts
-        version: 0.19.23
+        version: 0.19.24
     images:
       fluent_bit:
         image: docker.io/fluent/fluent-bit
