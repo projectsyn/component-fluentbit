@@ -2,17 +2,17 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
-    app.kubernetes.io/instance: fluent-bit
+    app.kubernetes.io/instance: fluentbit
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: fluent-bit
     app.kubernetes.io/version: 3.1.4
     helm.sh/chart: fluent-bit-0.47.5
-  name: fluent-bit
+  name: fluentbit
   namespace: syn-fluentbit
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/instance: fluent-bit
+      app.kubernetes.io/instance: fluentbit
       app.kubernetes.io/name: fluent-bit
   template:
     metadata:
@@ -21,7 +21,7 @@ spec:
         checksum/syn-config: 06e588437d65a5b9ef0171f6ac0a59e7
         fluentbit.io/exclude: 'true'
       labels:
-        app.kubernetes.io/instance: fluent-bit
+        app.kubernetes.io/instance: fluentbit
         app.kubernetes.io/name: fluent-bit
     spec:
       containers:
@@ -58,10 +58,10 @@ spec:
               readOnly: true
       dnsPolicy: ClusterFirst
       hostNetwork: false
-      serviceAccountName: fluent-bit
+      serviceAccountName: fluentbit
       volumes:
         - configMap:
-            name: syn-fluentbit-config
+            name: fluentbit
           name: config
         - hostPath:
             path: /var/log

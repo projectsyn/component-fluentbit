@@ -1,6 +1,10 @@
 parameters:
   fluentbit:
+    =_metadata:
+      multi_instance: true
+
     namespace: syn-fluentbit
+    createNamespace: true
 
     charts:
       fluent-bit:
@@ -16,7 +20,7 @@ parameters:
     annotations:
       fluentbit.io/exclude: "true"
 
-    configMapName: syn-fluentbit-config
+    configMapName: ${_instance}
     config:
       # fluent-bit service config
       service:
@@ -78,6 +82,7 @@ parameters:
     tolerations: []
 
     helm_values:
+      fullnameOverride: ${_instance}
       podAnnotations: ${fluentbit:annotations}
       image:
         repository: ${fluentbit:images:fluent_bit:image}

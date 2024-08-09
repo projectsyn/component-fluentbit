@@ -3,8 +3,14 @@ local inv = kap.inventory();
 local params = inv.parameters.fluentbit;
 local argocd = import 'lib/argocd.libjsonnet';
 
-local app = argocd.App('fluentbit', params.namespace);
+local app = argocd.App(inv.parameters._instance, params.namespace) {
+  spec+: {
+    source+: {
+      path: 'manifests/fluentbit/' + inv.parameters._instance,
+    },
+  },
+};
 
 {
-  fluentbit: app,
+  [inv.parameters._instance]: app,
 }
