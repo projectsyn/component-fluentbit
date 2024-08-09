@@ -4,6 +4,7 @@ local kube = import 'lib/kube.libjsonnet';
 local inv = kap.inventory();
 // The hiera parameters for the component
 local params = inv.parameters.fluentbit;
+local instanceName = inv.parameters._instance;
 
 local render_fluentbit_cfg(type, name, cfg) =
   local header = '[%s]' % std.asciiUpper(type);
@@ -148,7 +149,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
     namespace: params.namespace,
     labels+: {
       'app.kubernetes.io/name': 'fluent-bit',
-      'app.kubernetes.io/instance': 'fluent-bit-cluster',
+      'app.kubernetes.io/instance': instanceName,
       'app.kubernetes.io/version':
         std.split(params.images.fluent_bit.tag, '@')[0],
       'app.kubernetes.io/component': 'fluent-bit',
@@ -162,7 +163,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
 };
 
 {
-  '00_namespace': kube.Namespace(params.namespace),
+  [if params.createNamespace then '00_namespace']: kube.Namespace(params.namespace),
   '10_custom_config': configmap,
   [if params.monitoring.enabled then '20_service_monitor']:
     kube._Object('monitoring.coreos.com/v1', 'ServiceMonitor', 'fluent-bit') {
@@ -170,7 +171,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
         namespace: params.namespace,
         labels+: {
           'app.kubernetes.io/name': 'fluent-bit',
-          'app.kubernetes.io/instance': 'fluent-bit-cluster',
+          'app.kubernetes.io/instance': instanceName,
           'app.kubernetes.io/version':
             std.split(params.images.fluent_bit.tag, '@')[0],
           'app.kubernetes.io/component': 'fluent-bit',
@@ -185,7 +186,7 @@ local configmap = kube.ConfigMap(params.configMapName) {
         selector: {
           matchLabels: {
             'app.kubernetes.io/name': 'fluent-bit',
-            'app.kubernetes.io/instance': 'fluent-bit',
+            'app.kubernetes.io/instance': instanceName,
           },
         },
       },

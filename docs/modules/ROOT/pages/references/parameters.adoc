@@ -10,6 +10,22 @@ default:: `syn-fluentbit`
 
 The namespace in which to deploy this component.
 
+== `createNamespace`
+
+[horizontal]
+type:: bool
+default:: true
+
+Wether to create the configured namespace or not.
+
+== `configMapName`
+
+[horizontal]
+type:: string
+default:: `${_instance}`
+
+The name of the generated ConfigMap.
+
 == `config`
 
 [horizontal]

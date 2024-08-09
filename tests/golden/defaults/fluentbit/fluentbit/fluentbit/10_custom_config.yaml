@@ -35,10 +35,10 @@ metadata:
   annotations: {}
   labels:
     app.kubernetes.io/component: fluent-bit
-    app.kubernetes.io/instance: fluent-bit-cluster
+    app.kubernetes.io/instance: fluentbit
     app.kubernetes.io/managed-by: commodore
     app.kubernetes.io/name: fluent-bit
     app.kubernetes.io/version: 3.1.4
-    name: syn-fluentbit-config
-  name: syn-fluentbit-config
+    name: fluentbit
+  name: fluentbit
   namespace: syn-fluentbit
