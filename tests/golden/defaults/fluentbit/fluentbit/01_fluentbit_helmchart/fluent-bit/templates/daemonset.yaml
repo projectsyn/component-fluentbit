@@ -5,9 +5,10 @@ metadata:
     app.kubernetes.io/instance: fluent-bit
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/version: 1.8.15
-    helm.sh/chart: fluent-bit-0.19.23
+    app.kubernetes.io/version: 3.1.4
+    helm.sh/chart: fluent-bit-0.47.5
   name: fluent-bit
+  namespace: syn-fluentbit
 spec:
   selector:
     matchLabels:
@@ -17,7 +18,6 @@ spec:
     metadata:
       annotations:
         checksum/config: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-        checksum/luascripts: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         checksum/syn-config: 06e588437d65a5b9ef0171f6ac0a59e7
         fluentbit.io/exclude: 'true'
       labels:
@@ -25,8 +25,13 @@ spec:
         app.kubernetes.io/name: fluent-bit
     spec:
       containers:
-        - image: docker.io/fluent/fluent-bit:1.9.10
-          imagePullPolicy: Always
+        - args:
+            - --workdir=/fluent-bit/etc
+            - --config=/fluent-bit/etc/conf/fluent-bit.conf
+          command:
+            - /fluent-bit/bin/fluent-bit
+          image: docker.io/fluent/fluent-bit:3.1.4
+          imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
               path: /
@@ -41,12 +46,8 @@ spec:
               path: /api/v1/health
               port: http
           volumeMounts:
-            - mountPath: /fluent-bit/etc/fluent-bit.conf
+            - mountPath: /fluent-bit/etc/conf
               name: config
-              subPath: fluent-bit.conf
-            - mountPath: /fluent-bit/etc/custom_parsers.conf
-              name: config
-              subPath: custom_parsers.conf
             - mountPath: /var/log
               name: varlog
             - mountPath: /var/lib/docker/containers
