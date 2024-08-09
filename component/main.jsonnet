@@ -175,6 +175,7 @@ local secret = kube.Secret(params.secretName) {
     [s]: params.secret[s]
     for s in std.objectFields(params.secret)
   },
+  data:: {},
 };
 
 {
