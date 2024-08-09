@@ -66,6 +66,9 @@ parameters:
           K8S-Logging.Parser: "On"
           K8S-Logging.Exclude: "On"
 
+    # Add additional secrets
+    secrets: {}
+
     # Add volumes to the pod spec
     extraVolumes: []
     extraVolumeMounts: []
