@@ -67,7 +67,8 @@ parameters:
           K8S-Logging.Exclude: "On"
 
     # Add additional secrets
-    secrets: {}
+    secretName: ${_instance}
+    secret: {}
 
     # Add volumes to the pod spec
     extraVolumes: []

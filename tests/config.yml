@@ -1,0 +1,10 @@
+parameters:
+  fluentbit:
+    secret:
+      AWS_ACCESS_KEY_ID: <SUPER_SECRET>
+      AWS_SECRET_ACCESS_KEY: <EVEN_MORE_SUPERER>
+
+    helm_values:
+      envFrom:
+        - secretRef:
+            name: ${fluentbit:secretName}

@@ -180,6 +180,22 @@ capitalization of keys and values).
 If the dict for a section doesn't have a key `Name`, the key for the section will be used as the plugin name for the section.
 This allows avoiding repetition, when it's unnecessary, while still supporting having multiple outputs using the same plugin.
 
+== `secretName`
+
+[horizontal]
+type:: string
+default:: `${_instance}`
+
+The name of the generated secret.
+
+== `secret`
+
+[horizontal]
+type:: dict
+default:: {}
+
+Create a custom secret which containes the key-value pairs defined in this dict.
+
 == `annotations`
 
 [horizontal]
