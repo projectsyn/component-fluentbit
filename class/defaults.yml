@@ -1,6 +1,21 @@
 parameters:
   fluentbit:
     namespace: syn-fluentbit
+
+    charts:
+      fluent-bit:
+        source: https://fluent.github.io/helm-charts
+        version: 0.47.5
+
+    images:
+      fluent_bit:
+        image: docker.io/fluent/fluent-bit
+        tag: 3.1.4
+
+    # fluent-bit extra annotations
+    annotations:
+      fluentbit.io/exclude: "true"
+
     configMapName: syn-fluentbit-config
     config:
       # fluent-bit service config
@@ -46,28 +61,22 @@ parameters:
           Keep_Log: "On"
           K8S-Logging.Parser: "On"
           K8S-Logging.Exclude: "On"
-    # fluent-bit extra annotations
-    annotations:
-      fluentbit.io/exclude: "true"
+
+    # Add volumes to the pod spec
+    extraVolumes: []
+    extraVolumeMounts: []
+
     # control PodSecurityPolicy
     psp_enabled: false
+
     # Enable fluent-bit metrics, and configure a ServiceMonitor
     monitoring:
       enabled: false
       metricsPort: 2020
+
     # Add tolerations to the pod spec
     tolerations: []
-    # Add volumes to the pod spec
-    extraVolumes: []
-    extraVolumeMounts: []
-    charts:
-      fluent-bit:
-        source: https://fluent.github.io/helm-charts
-        version: 0.19.23
-    images:
-      fluent_bit:
-        image: docker.io/fluent/fluent-bit
-        tag: 1.9.10
+
     helm_values:
       podAnnotations: ${fluentbit:annotations}
       image:
