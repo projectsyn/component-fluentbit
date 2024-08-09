@@ -66,6 +66,10 @@ parameters:
           K8S-Logging.Parser: "On"
           K8S-Logging.Exclude: "On"
 
+    # Configure a custom secret to deploy
+    secretName: ${_instance}
+    secret: {}
+
     # Add volumes to the pod spec
     extraVolumes: []
     extraVolumeMounts: []

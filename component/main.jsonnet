@@ -162,8 +162,25 @@ local configmap = kube.ConfigMap(params.configMapName) {
   },
 };
 
+local secret = kube.Secret(params.secretName) {
+  metadata+: {
+    labels+: {
+      'app.kubernetes.io/name': params.secretName,
+      'app.kubernetes.io/instance': instanceName,
+      'app.kubernetes.io/component': 'fluent-bit',
+      'app.kubernetes.io/managed-by': 'commodore',
+    },
+  },
+  stringData: {
+    [s]: params.secret[s]
+    for s in std.objectFields(params.secret)
+  },
+  data:: {},
+};
+
 {
   [if params.createNamespace then '00_namespace']: kube.Namespace(params.namespace),
+  [if std.length(params.secret) > 0 then '10_custom_secret']: secret,
   '10_custom_config': configmap,
   [if params.monitoring.enabled then '20_service_monitor']:
     kube._Object('monitoring.coreos.com/v1', 'ServiceMonitor', 'fluent-bit') {
