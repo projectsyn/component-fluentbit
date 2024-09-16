@@ -30,7 +30,7 @@ spec:
             - --config=/fluent-bit/etc/conf/fluent-bit.conf
           command:
             - /fluent-bit/bin/fluent-bit
-          image: docker.io/fluent/fluent-bit:3.1.7
+          image: docker.io/fluent/fluent-bit:3.1.8
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
