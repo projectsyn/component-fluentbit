@@ -5,8 +5,8 @@ metadata:
     app.kubernetes.io/instance: fluentbit
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/version: 3.1.6
-    helm.sh/chart: fluent-bit-0.47.7
+    app.kubernetes.io/version: 3.1.9
+    helm.sh/chart: fluent-bit-0.47.10
   name: fluentbit
   namespace: syn-fluentbit
 spec:
