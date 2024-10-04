@@ -14,11 +14,11 @@ parameters:
       - input_paths:
           - fluentbit/component/main.jsonnet
         input_type: jsonnet
-        output_path: fluentbit/${_instance}/
+        output_path: ${_instance}/
       - input_paths:
           - ${_base_directory}/helmcharts/fluent-bit-${fluentbit:charts:fluent-bit:version}
         input_type: helm
-        output_path: fluentbit/${_instance}/01_fluentbit_helmchart
+        output_path: ${_instance}/01_fluentbit_helmchart
         helm_values: ${fluentbit:helm_values}
         helm_params:
           name: ${_instance}
@@ -27,5 +27,5 @@ parameters:
     postprocess:
       filters:
         - type: jsonnet
-          path: fluentbit/${_instance}/01_fluentbit_helmchart/fluent-bit/templates
+          path: ${_instance}/01_fluentbit_helmchart/fluent-bit/templates
           filter: postprocess/patch_helm_output.jsonnet
