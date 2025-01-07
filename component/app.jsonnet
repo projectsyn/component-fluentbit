@@ -5,6 +5,10 @@ local argocd = import 'lib/argocd.libjsonnet';
 
 local app = argocd.App(inv.parameters._instance, params.namespace);
 
+local appPath =
+  local project = std.get(std.get(app, 'spec', {}), 'project', 'syn');
+  if project == 'syn' then 'apps' else 'apps-%s' % project;
+
 {
-  [inv.parameters._instance]: app,
+  ['%s/%s' % [ appPath, inv.parameters._instance ]]: app,
 }

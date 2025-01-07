@@ -2,6 +2,7 @@ parameters:
   fluentbit:
     =_metadata:
       multi_instance: true
+      multi_tenant: true
 
     namespace: syn-fluentbit
     createNamespace: true
