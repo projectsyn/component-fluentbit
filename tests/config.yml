@@ -5,6 +5,8 @@ parameters:
       AWS_SECRET_ACCESS_KEY: <EVEN_MORE_SUPERER>
 
     helm_values:
+      kind: Deployment
+      replicaCount: 2
       envFrom:
         - secretRef:
             name: ${fluentbit:secretName}

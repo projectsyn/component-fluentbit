@@ -289,6 +289,11 @@ This allows to configure all https://github.com/fluent/helm-charts/blob/main/cha
 
 Note that it's your own liability to make sure you don't break stuff by overwriting values here!
 
+For `Deployment` deployments with `replicaCount` greater than 1, a
+PodDisruptionBudget is enabled and pod anti-affinity is added automatically.
+The `podDisruptionBudget.maxUnavailable` value can be overridden via
+`helm_values`.
+
 == Example
 
 [source,yaml]
