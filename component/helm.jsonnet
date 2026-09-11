@@ -37,7 +37,7 @@ local computed = {
   podDisruptionBudget: {
     enabled: multiReplica,
   },
-  [if multiReplica then 'affinity']: {
+  affinity: {
     podAntiAffinity: {
       preferredDuringSchedulingIgnoredDuringExecution: [ {
         weight: 100,
