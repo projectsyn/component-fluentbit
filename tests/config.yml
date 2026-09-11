@@ -1,5 +1,7 @@
 parameters:
   fluentbit:
+    kind: Deployment
+    replicas: 2
     secret:
       AWS_ACCESS_KEY_ID: <SUPER_SECRET>
       AWS_SECRET_ACCESS_KEY: <EVEN_MORE_SUPERER>

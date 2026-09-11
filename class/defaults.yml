@@ -6,6 +6,10 @@ parameters:
 
     namespace: syn-fluentbit
     createNamespace: true
+    kind: DaemonSet
+    replicas: 1
+    podDisruptionBudget:
+      maxUnavailable: 1
 
     charts:
       fluent-bit:
@@ -88,6 +92,8 @@ parameters:
 
     helm_values:
       fullnameOverride: ${_instance}
+      kind: ${fluentbit:kind}
+      replicaCount: ${fluentbit:replicas}
       podAnnotations: ${fluentbit:annotations}
       image:
         repository: ${fluentbit:images:fluent_bit:image}

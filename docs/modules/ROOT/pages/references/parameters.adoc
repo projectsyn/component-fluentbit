@@ -2,13 +2,30 @@
 
 The parent key for all of the following parameters is `fluentbit`.
 
-== `namespace`
+== `kind`
 
 [horizontal]
 type:: string
-default:: `syn-fluentbit`
+default:: `DaemonSet`
 
-The namespace in which to deploy this component.
+Select whether fluent-bit is deployed as a `DaemonSet` or `Deployment`.
+
+== `replicas`
+
+[horizontal]
+type:: int
+default:: `1`
+
+Number of fluent-bit replicas when `kind` is `Deployment`. Deployments with more than one replica receive a PodDisruptionBudget.
+
+== `podDisruptionBudget.maxUnavailable`
+
+[horizontal]
+type:: int or string
+default:: `1`
+
+Maximum number of fluent-bit pods that may be unavailable during a disruption when a Deployment has more than one replica.
+
 
 == `createNamespace`
 
