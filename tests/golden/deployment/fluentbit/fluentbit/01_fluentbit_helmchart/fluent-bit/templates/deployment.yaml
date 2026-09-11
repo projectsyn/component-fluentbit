@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/instance: fluentbit
@@ -10,6 +10,7 @@ metadata:
   name: fluentbit
   namespace: syn-fluentbit
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app.kubernetes.io/instance: fluentbit
@@ -40,9 +41,6 @@ spec:
             - --config=/fluent-bit/etc/conf/fluent-bit.conf
           command:
             - /fluent-bit/bin/fluent-bit
-          envFrom:
-            - secretRef:
-                name: fluentbit
           image: docker.io/fluent/fluent-bit:3.1.10
           imagePullPolicy: IfNotPresent
           livenessProbe:
@@ -61,14 +59,6 @@ spec:
           volumeMounts:
             - mountPath: /fluent-bit/etc/conf
               name: config
-            - mountPath: /var/log
-              name: varlog
-            - mountPath: /var/lib/docker/containers
-              name: varlibdockercontainers
-              readOnly: true
-            - mountPath: /etc/machine-id
-              name: etcmachineid
-              readOnly: true
       dnsPolicy: ClusterFirst
       hostNetwork: false
       serviceAccountName: fluentbit
@@ -76,13 +66,3 @@ spec:
         - configMap:
             name: fluentbit
           name: config
-        - hostPath:
-            path: /var/log
-          name: varlog
-        - hostPath:
-            path: /var/lib/docker/containers
-          name: varlibdockercontainers
-        - hostPath:
-            path: /etc/machine-id
-            type: File
-          name: etcmachineid
