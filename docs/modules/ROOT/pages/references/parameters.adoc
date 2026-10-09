@@ -18,6 +18,14 @@ default:: true
 
 Wether to create the configured namespace or not.
 
+== `namespaceLabels`
+
+[horizontal]
+type:: dict
+default:: `{}`
+
+Labels that are added to the namespace, if the namespace is created by the component (see `createNamespace`).
+
 == `configMapName`
 
 [horizontal]

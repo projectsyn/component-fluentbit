@@ -7,6 +7,9 @@ parameters:
     namespace: syn-fluentbit
     createNamespace: true
 
+    # Labels to add to the namespace, if it's created by the component
+    namespaceLabels: {}
+
     charts:
       fluent-bit:
         source: https://fluent.github.io/helm-charts
