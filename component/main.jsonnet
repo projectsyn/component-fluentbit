@@ -162,6 +162,12 @@ local configmap = kube.ConfigMap(params.configMapName) {
   },
 };
 
+local namespace = kube.Namespace(params.namespace) {
+  metadata+: {
+    labels+: params.namespaceLabels,
+  },
+};
+
 local secret = kube.Secret(params.secretName) {
   metadata+: {
     labels+: {
@@ -179,7 +185,7 @@ local secret = kube.Secret(params.secretName) {
 };
 
 {
-  [if params.createNamespace then '00_namespace']: kube.Namespace(params.namespace),
+  [if params.createNamespace then '00_namespace']: namespace,
   [if std.length(params.secret) > 0 then '10_custom_secret']: secret,
   '10_custom_config': configmap,
   [if params.monitoring.enabled then '20_service_monitor']:

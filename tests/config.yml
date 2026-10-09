@@ -4,6 +4,9 @@ parameters:
       AWS_ACCESS_KEY_ID: <SUPER_SECRET>
       AWS_SECRET_ACCESS_KEY: <EVEN_MORE_SUPERER>
 
+    namespaceLabels:
+      vshn_net_solution_monitoring: solution-base-monitoring
+
     helm_values:
       envFrom:
         - secretRef:
