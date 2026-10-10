@@ -7,7 +7,7 @@ local params = inv.parameters.fluentbit;
 local chart_output_dir = std.extVar('output_path');
 
 // Grab custom configmap to add a hash of the contents as annotation to the
-// DaemonSet. This will trigger fluentbit restarts if the config changes
+// DaemonSet or Deployment. This will trigger fluentbit restarts if the config changes
 local configmap_file = chart_output_dir + '/../../../10_custom_config.yaml';
 local configmap = std.prune(com.yaml_load_all(configmap_file))[0];
 local configmap_contents_hash = std.md5(configmap.data['fluent-bit.conf']);
@@ -51,7 +51,7 @@ local fix_container_port(ds) =
   };
 
 local fixup_obj(obj) =
-  if obj.kind == 'DaemonSet' then
+  if obj.kind == 'DaemonSet' || obj.kind == 'Deployment' then
     fix_container_port(obj)
   else
     obj;

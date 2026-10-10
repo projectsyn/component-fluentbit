@@ -1,0 +1,5 @@
+parameters:
+  fluentbit:
+    helm_values:
+      kind: Deployment
+      replicaCount: 2

@@ -24,6 +24,16 @@ spec:
         app.kubernetes.io/instance: fluentbit
         app.kubernetes.io/name: fluent-bit
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: fluentbit
+                    app.kubernetes.io/name: fluent-bit
+                topologyKey: kubernetes.io/hostname
+              weight: 100
       containers:
         - args:
             - --workdir=/fluent-bit/etc
