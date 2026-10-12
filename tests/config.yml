@@ -7,6 +7,13 @@ parameters:
     namespaceLabels:
       vshn_net_solution_monitoring: solution-base-monitoring
 
+    networkPolicy:
+      ingress:
+        - from:
+            - namespaceSelector:
+                matchLabels:
+                  name: openshift-logging
+
     helm_values:
       envFrom:
         - secretRef:

@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  annotations: {}
+  labels:
+    app.kubernetes.io/component: fluent-bit
+    app.kubernetes.io/instance: fluentbit
+    app.kubernetes.io/managed-by: commodore
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/version: 3.1.10
+    name: fluentbit
+  name: fluentbit
+  namespace: syn-fluentbit
+spec:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: openshift-logging
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: fluentbit
+      app.kubernetes.io/name: fluent-bit
+  policyTypes:
+    - Ingress

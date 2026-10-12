@@ -168,6 +168,30 @@ local namespace = kube.Namespace(params.namespace) {
   },
 };
 
+local networkPolicy = kube._Object('networking.k8s.io/v1', 'NetworkPolicy', instanceName) {
+  metadata+: {
+    namespace: params.namespace,
+    labels+: {
+      'app.kubernetes.io/name': 'fluent-bit',
+      'app.kubernetes.io/instance': instanceName,
+      'app.kubernetes.io/version':
+        std.split(params.images.fluent_bit.tag, '@')[0],
+      'app.kubernetes.io/component': 'fluent-bit',
+      'app.kubernetes.io/managed-by': 'commodore',
+    },
+  },
+  spec: {
+    podSelector: {
+      matchLabels: {
+        'app.kubernetes.io/name': 'fluent-bit',
+        'app.kubernetes.io/instance': instanceName,
+      },
+    },
+    policyTypes: [ 'Ingress' ],
+    ingress: params.networkPolicy.ingress,
+  },
+};
+
 local secret = kube.Secret(params.secretName) {
   metadata+: {
     labels+: {
@@ -214,4 +238,5 @@ local secret = kube.Secret(params.secretName) {
         },
       },
     },
+  [if std.length(params.networkPolicy.ingress) > 0 then '20_network_policy']: networkPolicy,
 }

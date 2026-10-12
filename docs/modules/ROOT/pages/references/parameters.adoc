@@ -242,6 +242,27 @@ Configures the port on which fluent-bit exposes its metrics.
 
 This value is also injected into the fluent-bit configuration file in section `[SERVICE]` as the value for key `HTTP_Port`, unless `HTTP_Port` is explicitly set in `config.service`.
 
+== `networkPolicy.ingress`
+
+[horizontal]
+type:: list of https://kubernetes.io/docs/reference/network-policy/[NetworkPolicyIngress rules]
+default:: `[]`
+
+If at least one ingress rule is given, the component renders a NetworkPolicy named after the component instance in the component's namespace.
+The NetworkPolicy selects the fluent-bit pods (labels `app.kubernetes.io/name=fluent-bit`, `app.kubernetes.io/instance=<instance>`), sets `policyTypes` to `[Ingress]`, and carries the given ingress rules verbatim.
+
+For example, to allow the `openshift-logging` namespace to access fluent-bit:
+
+[source,yaml]
+----
+networkPolicy:
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: openshift-logging
+----
+
 == `tolerations`
 
 [horizontal]

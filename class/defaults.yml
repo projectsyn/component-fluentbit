@@ -86,6 +86,9 @@ parameters:
       enabled: false
       metricsPort: 2020
 
+    networkPolicy:
+      ingress: []
+
     # Add tolerations to the pod spec
     tolerations: []
 
