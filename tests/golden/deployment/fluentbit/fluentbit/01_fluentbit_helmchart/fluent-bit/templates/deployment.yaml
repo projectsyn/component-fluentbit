@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: fluentbit
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: fluent-bit
+    app.kubernetes.io/version: 3.1.6
+    helm.sh/chart: fluent-bit-0.47.7
+  name: fluentbit
+  namespace: syn-fluentbit
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: fluentbit
+      app.kubernetes.io/name: fluent-bit
+  template:
+    metadata:
+      annotations:
+        checksum/config: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        checksum/syn-config: 06e588437d65a5b9ef0171f6ac0a59e7
+        fluentbit.io/exclude: 'true'
+      labels:
+        app.kubernetes.io/instance: fluentbit
+        app.kubernetes.io/name: fluent-bit
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/instance: fluentbit
+                    app.kubernetes.io/name: fluent-bit
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      containers:
+        - args:
+            - --workdir=/fluent-bit/etc
+            - --config=/fluent-bit/etc/conf/fluent-bit.conf
+          command:
+            - /fluent-bit/bin/fluent-bit
+          image: docker.io/fluent/fluent-bit:3.1.10
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          name: fluent-bit
+          ports:
+            - containerPort: 2020
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: http
+          volumeMounts:
+            - mountPath: /fluent-bit/etc/conf
+              name: config
+      dnsPolicy: ClusterFirst
+      hostNetwork: false
+      serviceAccountName: fluentbit
+      volumes:
+        - configMap:
+            name: fluentbit
+          name: config
