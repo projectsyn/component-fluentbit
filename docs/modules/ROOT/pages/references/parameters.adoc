@@ -196,6 +196,9 @@ default:: {}
 
 Create a custom secret which containes the key-value pairs defined in this dict.
 
+If the secret is non-empty, the component automatically injects a `secretRef` for the secret into the fluent-bit DaemonSet container's `envFrom`.
+There is no need to configure `helm_values.envFrom` manually for this.
+
 == `annotations`
 
 [horizontal]

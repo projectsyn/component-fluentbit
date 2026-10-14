@@ -53,6 +53,13 @@ local computed = {
       } ],
     },
   },
+  [if std.length(params.secret) > 0 then 'envFrom']: [
+    {
+      secretRef: {
+        name: params.secretName,
+      },
+    },
+  ],
 };
 
 {
