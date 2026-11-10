@@ -33,6 +33,7 @@ jobs:
         instance:
           - defaults
           - config
+          - deployment
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
@@ -49,6 +50,7 @@ jobs:
         instance:
           - defaults
           - config
+          - deployment
     defaults:
       run:
         working-directory: ${{ env.COMPONENT_NAME }}
